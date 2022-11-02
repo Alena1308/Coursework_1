@@ -2,11 +2,11 @@ package course1.coursework1;
 
 public class Employee {
     private String fullName;
-    private String department;
+    private int department;
     private double salary;
     private static int count = 1;
     private int id;
-    public Employee (String fullName, String department, double salary) {
+    public Employee (String fullName, int department, double salary) {
         this.fullName = fullName;
         this.department = department;
         this.salary = salary;
@@ -18,7 +18,7 @@ public class Employee {
         return fullName;
     }
 
-    public String getDepartment() {
+    public int getDepartment() {
         return department;
     }
 
@@ -34,7 +34,7 @@ public class Employee {
         return count;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(int department) {
         this.department = department;
     }
 
@@ -43,6 +43,6 @@ public class Employee {
     }
     @Override
     public String toString() {
-        return "id: " + id + ", fullname: " + fullName + ", department: " + department + ", salary: " + salary;
+        return "ID: " + id + ", Full name: " + fullName + ", Department: " + department + ", Salary: " + salary;
     }
 }

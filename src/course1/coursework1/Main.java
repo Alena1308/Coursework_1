@@ -12,7 +12,7 @@ public class Main {
         employees [6] = new Employee("Levina Maria Ivanovna", 2, 100_000);
         employees [7] = new Employee("Kirova Svetlana Ivanovna", 3, 50_000);
         employees [8] = new Employee("Koshina Kira Ivanovna", 4, 92_000);
-        employees [9] = new Employee("Zimina Anna Ivanovna", 5, 84_000);
+// Работа с массивом:
         printArray(employees);
         System.out.println("Сумма затрат на зарплаты в месяц = " + findSalarySum(employees));
         System.out.println("Сотрудник с минимальной зарплатой = " + findEmployeeMinSalary(employees));
@@ -30,27 +30,57 @@ public class Main {
         printArray(employees); // Проверка индексации зп в отделе
         printDepartmentEmployees(employees, 5);
         lessThanANumber(employees, 60_000);
-        MoreThanANumber(employees, 60_000);
+        moreThanANumber(employees, 60_000);
+        System.out.println("======================================================================");
+        EmployeeBook employeeBook = new EmployeeBook (employees);
+        employeeBook.printArray();
+        System.out.println("Сумма затрат на зарплаты в месяц = " + employeeBook.findSalarySum());
+        System.out.println("Сотрудник с минимальной зарплатой = " + employeeBook.findEmployeeMinSalary());
+        System.out.println("Сотрудник с максимальной зарплатой = " + employeeBook.findEmployeeMaxSalary());
+        System.out.println("Среднее значение зарплат = " + employeeBook.findAverageSalaryValue());
+        employeeBook.printAllFullNames();
+        employeeBook.indexSalary(5);
+        employeeBook.printArray(); // Check indexSalary()
+        System.out.println("Сотрудник с минимальной зарплатой в отделе = " + employeeBook.findInDepartmentEmployeeMinSalary(4));
+        System.out.println("Сотрудник с максимальной зарплатой в отделе = " + employeeBook.findInDepartmentEmployeeMaxSalary(5));
+        System.out.println("Сумма затрат на зарплаты отдела в месяц = " + employeeBook.findSalaryDepartmentSum(4));
+        System.out.println("Среднее значение зарплат отдела = " + employeeBook.findAverageSalaryValueDepartment(4));
+        employeeBook.indexSalaryDepartment(10,5);
+        employeeBook.printArray(); // Проверка индексации зп в отделе
+        employeeBook.printDepartmentEmployees(5);
+        employeeBook.lessThanANumber(70_000);
+        employeeBook.moreThanANumber(70_000);
+        employeeBook.addEmployee("Lisina Olga Ivanovna", 5, 70_000);
+        employeeBook.printArray(); // Проверка добавления сотрудника
+        employeeBook.deleteEmployee(10);
+        employeeBook.printArray(); // Проверка удаления сотрудника
+        employeeBook.changeSalary("Kirova Svetlana Ivanovna", 55_000);
+        employeeBook.changeDepartment("Kirova Svetlana Ivanovna", 3);
+        employeeBook.printArray(); // Проверка изменений данных сотрудника
+        employeeBook.printEmployeesSortingByDepartment();
     }
     // Базовая сложность:
     public static void printArray (Employee [] array) {
         System.out.println("Список сотрудников с их данными:");
         for (int i = 0; i < array.length; i++) {
-            array [i].toString();
-            System.out.println(array[i]);
+            if (array[i] != null) {
+                System.out.println(array[i]);
+            }
         }
     }
     public  static double findSalarySum(Employee [] array) {
         double sum = 0;
         for (int i = 0; i < array.length; i++) {
-            sum += array [i].getSalary();
+            if (array[i] != null) {
+                sum += array[i].getSalary();
+            }
         }
         return sum;
     }
     public static Employee findEmployeeMinSalary (Employee [] array) {
         Employee employeeMinSalary = array[0];
         for (int i = 0; i < array.length; i++) {
-            if (array[i].getSalary() <= employeeMinSalary.getSalary()) {
+            if (array[i] != null && array[i].getSalary() <= employeeMinSalary.getSalary()) {
                 employeeMinSalary = array[i];
             }
         }
@@ -59,7 +89,7 @@ public class Main {
     public static Employee findEmployeeMaxSalary (Employee [] array) {
         Employee employeeMaxSalary = array[0];
         for (int i = 0; i < array.length; i++) {
-            if (array[i].getSalary() >= employeeMaxSalary.getSalary()) {
+            if (array[i] != null && array[i].getSalary() >= employeeMaxSalary.getSalary()) {
                 employeeMaxSalary = array[i];
             }
         }
@@ -72,21 +102,25 @@ public class Main {
     public static void printAllFullNames (Employee [] array) {
         System.out.println("Список ФИО всех сотрудников:");
         for (int i = 0; i < array.length; i++) {
-            System.out.println(array[i].getFullName());
+            if (array[i] != null) {
+                System.out.println(array[i].getFullName());
+            }
         }
     }
     // Повышенная сложность:
     public static void indexSalary (Employee [] array, double indexPercent) {
         for (int i = 0; i < array.length; i++) {
-            double s = array[i].getSalary();
-            s += s * indexPercent /  100;
-            array[i].setSalary(s);
+            if (array[i] != null) {
+                double s = array[i].getSalary();
+                s += s * indexPercent / 100;
+                array[i].setSalary(s);
+            }
         }
     }
     public static Employee findInDepartmentEmployeeMinSalary (Employee [] array, int department) {
         Employee employeeMinSalary = findEmployeeMaxSalary(array);
         for (int i = 0; i < array.length; i++) {
-            if (department == (array[i].getDepartment()) && array[i].getSalary() <= employeeMinSalary.getSalary()) {
+            if (array[i] != null && department == (array[i].getDepartment()) && array[i].getSalary() <= employeeMinSalary.getSalary()) {
                 employeeMinSalary = array[i];
             }
         }
@@ -95,7 +129,7 @@ public class Main {
     public static Employee findInDepartmentEmployeeMaxSalary (Employee [] array, int department) {
         Employee employeeMaxSalary = findEmployeeMinSalary(array);
         for (int i = 0; i < array.length; i++) {
-            if (department == (array[i].getDepartment()) && array[i].getSalary() >= employeeMaxSalary.getSalary()) {
+            if (array[i] != null && department == (array[i].getDepartment()) && array[i].getSalary() >= employeeMaxSalary.getSalary()) {
                 employeeMaxSalary = array[i];
             }
         }
@@ -104,7 +138,7 @@ public class Main {
     public  static double findSalaryDepartmentSum(Employee [] array, int department) {
         double sum = 0;
         for (int i = 0; i < array.length; i++) {
-            if (department == (array[i].getDepartment())) {
+            if (array[i] != null && department == (array[i].getDepartment())) {
                 sum += array[i].getSalary();
             }
         }
@@ -114,7 +148,7 @@ public class Main {
         double averageSalaryValueDepartment = 0;
         int count = 0;
         for (int i = 0; i < array.length; i++) {
-            if (department == (array[i].getDepartment())) {
+            if (array[i] != null && department == (array[i].getDepartment())) {
                 count ++;
             }
             averageSalaryValueDepartment = findSalaryDepartmentSum(array, department) / count;
@@ -123,7 +157,7 @@ public class Main {
     }
     public static void indexSalaryDepartment (Employee [] array, double indexPercent, int department) {
         for (int i = 0; i < array.length; i++) {
-            if (department == (array[i].getDepartment())) {
+            if (array[i] != null && department == (array[i].getDepartment())) {
                 double s = array[i].getSalary();
                 s += s * indexPercent / 100;
                 array[i].setSalary(s);
@@ -133,7 +167,7 @@ public class Main {
     public static void printDepartmentEmployees (Employee [] array, int department) {
         System.out.println("Список сотрудников отдела " + department + " с их данными:");
         for (int i = 0; i < array.length; i++) {
-            if (department == (array[i].getDepartment())) {
+            if (array[i] != null && department == (array[i].getDepartment())) {
                 System.out.println("ID: " + array[i].getId() + ", Full name: " + array[i].getFullName() + ", Salary: " + array[i].getSalary());
             }
         }
@@ -141,16 +175,16 @@ public class Main {
     public static void lessThanANumber (Employee [] array, double number) {
         System.out.println("Сотрудники с зарплатой меньше, чем " + number);
         for (int i = 0; i < array.length; i++) {
-            if (number > array[i].getSalary()) {
+            if (array[i] != null && number > array[i].getSalary()) {
                 Employee employeeMinSalary = array[i];
                 System.out.println("ID: " + array[i].getId() + ", Full name: " + array[i].getFullName() + ", Salary: " + array[i].getSalary());
             }
         }
     }
-    public static void MoreThanANumber (Employee [] array, double number) {
+    public static void moreThanANumber (Employee [] array, double number) {
         System.out.println("Сотрудники с зарплатой больше, чем " + number);
         for (int i = 0; i < array.length; i++) {
-            if (number < array[i].getSalary()) {
+            if (array[i] != null && number < array[i].getSalary()) {
                 Employee employeeMaxSalary = array[i];
                 System.out.println("ID: " + array[i].getId() + ", Full name: " + array[i].getFullName() + ", Salary: " + array[i].getSalary());
             }

@@ -155,9 +155,9 @@ public class EmployeeBook {
             }
         }
     }
-    public void deleteEmployee(int ID) {
+    public void deleteEmployee(int id) {
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null && ID == employees[i].getId()) {
+            if (employees[i] != null && id == employees[i].getId()) {
                 employees[i] = null;
             }
         }
